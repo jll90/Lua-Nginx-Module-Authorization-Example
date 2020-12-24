@@ -1,0 +1,29 @@
+version: "3"
+
+networks:
+  cluster:
+    external: false
+
+services:
+  proxy:
+    build:
+      context: .
+    depends_on:
+      - microservice
+    networks:
+      - cluster
+    ports:
+      - "80:80"
+    restart: always
+  
+  microservice:
+    build:
+      context: ./microservice
+      dockerfile: Dockerfile
+    networks:
+      - cluster
+    ports:
+      - '3000:3000'
+    restart: always
+
+
